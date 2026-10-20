@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><title>G · Aurora Mood</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:"SF Pro Rounded",ui-rounded,ui-sans-serif,-apple-system,Inter,sans-serif;color:#fff;min-height:100vh;background:#0a0710;padding:20px}
+.stage{border-radius:40px;padding:26px 30px 0;position:relative;overflow:hidden;height:520px;
+ background:radial-gradient(600px 400px at 15% 0%,#ff3d81,transparent 60%),radial-gradient(700px 500px at 90% 20%,#ff8a3d,transparent 55%),radial-gradient(600px 500px at 50% 110%,#7a2bff,transparent 60%),#1a0a1f}
+.top{display:flex;align-items:center;gap:12px}.logo{font-weight:900;font-size:21px;letter-spacing:-.03em}.search{margin-left:auto;background:#ffffff26;backdrop-filter:blur(16px);border-radius:99px;padding:10px 22px;font-size:14px;width:300px;color:#ffffffcc}
+.sym{margin-top:36px;font-weight:700;font-size:15px;opacity:.85}
+.price{font-size:112px;font-weight:900;letter-spacing:-.06em;line-height:1;margin-top:4px;text-shadow:0 8px 40px #0004}
+.mood{display:inline-block;margin-top:6px;background:#00000033;backdrop-filter:blur(12px);border-radius:99px;padding:8px 16px;font-weight:800}
+.ranges{position:absolute;right:30px;top:120px;display:flex;flex-direction:column;gap:6px}.ranges span{background:#ffffff1f;backdrop-filter:blur(10px);border-radius:99px;padding:7px 15px;font-weight:800;font-size:13px;text-align:center}.ranges .on{background:#fff;color:#1a0a1f}
+svg.big{position:absolute;left:0;bottom:0;width:100%;height:230px}
+.rail{display:flex;gap:12px;margin-top:16px;overflow:hidden}
+.card{min-width:190px;border-radius:28px;padding:16px;background:#181222}.card.on{background:#fff;color:#1a0a1f}
+.card .h{display:flex;justify-content:space-between;align-items:center}.card .f{font-size:26px}.card b{display:block;font-size:17px;margin-top:10px;font-weight:900}.card small{opacity:.6;font-size:12px}
+.card .pr{margin-top:12px;font-size:20px;font-weight:900}.card .pc{font-weight:800;font-size:13px}
+.up{color:#3dff9e}.dn{color:#ff6b8f}.card.on .up{color:#00a85a}.card.on .dn{color:#e0245e}
+.idx{display:flex;gap:10px;margin-top:14px;overflow:hidden}.idx div{background:#181222;border-radius:99px;padding:9px 16px;font-size:13px;font-weight:700;white-space:nowrap}
+</style>
+<div class="stage"><div class="top"><span class="logo">◐ watcher</span><div class="search">Search the world…</div></div>
+<div class="sym">🇺🇸 Apple Inc. · AAPL · pre-market</div><div class="price">342.94</div><span class="mood">😬 −0.52 (−0.15%) today</span>
+<div class="ranges"><span class="on">1D</span><span>1W</span><span>1M</span><span>1Y</span><span>YTD</span><span>5Y</span><span>MAX</span></div>
+<svg class="big" id="big" viewBox="0 0 1000 230" preserveAspectRatio="none"></svg></div>
+<div class="idx" id="idx"></div>
+<div class="rail" id="rail"></div>
+<script src="shared.js"></script><script>
+idx.innerHTML=INDEX.map((i,k)=>`<div>${IFLAG[k]} ${i[0]} &nbsp;${i[1]} <span class="${i[2]>0?'up':'dn'}">${sgn(i[2])}</span></div>`).join('');
+rail.innerHTML=WATCH.map((w,i)=>`<div class="card ${i?'':'on'}"><div class="h"><span class="f">${FLAG[w.sym]}</span><span class="pc ${w.pct>=0?'up':'dn'}">${w.pct>=0?'▲':'▼'} ${Math.abs(w.pct).toFixed(2)}%</span></div><b>${w.sym}</b><small>${w.name}</small><div class="pr">${fmt(w.price)}</div><svg width="100%" height="30" viewBox="0 0 160 30" preserveAspectRatio="none" style="margin-top:8px"><path d="${path(series(w.seed,50,w.d),160,30,3)}" fill="none" stroke="${w.pct>=0?'#00c46a':'#ff4d79'}" stroke-width="2.5" stroke-linecap="round"/></svg></div>`).join('');
+const p=path(series(3,120,-.02),1000,230,24);big.innerHTML=`<defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><path d="${p}L1000,230L0,230Z" fill="url(#g)"/><path d="${p}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`;
+</script>
