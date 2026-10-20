@@ -1,49 +1,51 @@
 @import "tailwindcss";
 
-/* ——— Aurora Pulse tokens ——— */
+/* ——— Night Market tokens ——— */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #07080e;
-  --panel: #0e1019;
-  --panel-2: #151827;
-  --hover: #1c2033;
-  --line: #252a40;
+  --bg: #05060c;
+  --panel: #0c0e16;
+  --panel-2: #141724;
+  --hover: #1c2133;
+  --line: #2a2f44;
   --text: #f5f6fb;
-  --muted: #a2aac2;
-  --up: #3ddc97;
-  --down: #ff6b81;
-  --accent: #8b7cff;
-  --accent-2: #3dd6f5;
-  --up-soft: color-mix(in srgb, var(--up) 15%, transparent);
-  --down-soft: color-mix(in srgb, var(--down) 15%, transparent);
-  --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
-  --glow-up: color-mix(in srgb, var(--up) 20%, transparent);
-  --glow-down: color-mix(in srgb, var(--down) 20%, transparent);
-  --glow-accent: color-mix(in srgb, var(--accent) 22%, transparent);
-  --shadow: 0 20px 50px -18px rgb(0 0 0 / .65);
-  --card-grad: linear-gradient(165deg, color-mix(in srgb, var(--panel) 88%, var(--accent) 5%), var(--panel) 55%);
+  --muted: #a4adc4;
+  --up: #3ee6a0;
+  --down: #ff6b88;
+  --accent: #8d7cff;
+  --accent-2: #3ce0ff;
+  --warn: #f5b942;
+  --up-soft: color-mix(in srgb, var(--up) 18%, transparent);
+  --down-soft: color-mix(in srgb, var(--down) 18%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 20%, transparent);
+  --glow-up: color-mix(in srgb, var(--up) 38%, transparent);
+  --glow-down: color-mix(in srgb, var(--down) 36%, transparent);
+  --glow-accent: color-mix(in srgb, var(--accent) 32%, transparent);
+  --shadow: 0 24px 60px -22px rgb(0 0 0 / .72);
+  --card-grad: linear-gradient(180deg, color-mix(in srgb, var(--panel) 82%, var(--accent) 10%), var(--panel) 48%);
 }
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #eef0f7;
-  --panel: #ffffff;
-  --panel-2: #eef0f8;
-  --hover: #e3e7f3;
-  --line: #d9deee;
-  --text: #10121d;
-  --muted: #59627a;
-  --up: #07875a;
-  --down: #d92d42;
-  --accent: #6d4aff;
-  --accent-2: #0284b8;
-  --up-soft: #dcf5e9;
-  --down-soft: #ffe3e8;
-  --accent-soft: #eae5ff;
-  --glow-up: rgb(7 135 90 / .14);
-  --glow-down: rgb(217 45 66 / .13);
-  --glow-accent: rgb(109 74 255 / .12);
-  --shadow: 0 20px 45px -20px rgb(38 32 92 / .28);
-  --card-grad: linear-gradient(165deg, #ffffff, color-mix(in srgb, var(--panel) 92%, var(--accent) 6%));
+  --bg: #f3efe4;
+  --panel: #fffdf8;
+  --panel-2: #f3eee2;
+  --hover: #e9e2d2;
+  --line: #ddd4c0;
+  --text: #16141c;
+  --muted: #5a5448;
+  --up: #0a704c;
+  --down: #c01532;
+  --accent: #5b3dff;
+  --accent-2: #0a6f96;
+  --warn: #b58102;
+  --up-soft: #d5f3e4;
+  --down-soft: #ffd6dc;
+  --accent-soft: #e8e3ff;
+  --glow-up: rgb(10 112 76 / .20);
+  --glow-down: rgb(192 21 50 / .16);
+  --glow-accent: rgb(91 61 255 / .16);
+  --shadow: 0 22px 48px -24px rgb(62 48 18 / .28);
+  --card-grad: linear-gradient(180deg, #ffffff, #fff8ec);
 }
 
 @theme inline {
@@ -58,6 +60,7 @@
   --color-down: var(--down);
   --color-accent: var(--accent);
   --color-accent2: var(--accent-2);
+  --color-warn: var(--warn);
   --color-upsoft: var(--up-soft);
   --color-downsoft: var(--down-soft);
   --color-accentsoft: var(--accent-soft);
@@ -70,27 +73,54 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: "tnum" 1, "cv11" 1;
+  font-feature-settings: "tnum" 1, "cv11" 1, "ss01" 1;
   background:
-    radial-gradient(900px 480px at 8% -10%, var(--glow-accent), transparent 60%),
-    radial-gradient(800px 420px at 105% 0%, color-mix(in srgb, var(--accent-2) 10%, transparent), transparent 55%),
+    radial-gradient(1100px 560px at -8% -18%, var(--glow-accent), transparent 58%),
+    radial-gradient(900px 480px at 108% -8%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 52%),
     var(--bg);
   background-attachment: fixed;
-  transition: background-color .25s ease, color .25s ease;
+  transition: background-color .28s ease, color .28s ease;
 }
 .num { font-variant-numeric: tabular-nums; }
 
 ::selection { background: var(--accent); color: #fff; }
 :focus { outline: none; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
 
 * { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 .card { background: var(--card-grad); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.brand-grad { background: linear-gradient(120deg, var(--accent), var(--accent-2)); }
+.brand-grad { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
 .brand-text { background: linear-gradient(100deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* hero mood washes — the selected asset tints the room */
+.mood-up, .mood-down, .mood-flat { position: relative; isolation: isolate; overflow: hidden; }
+.mood-up::before, .mood-down::before, .mood-flat::before {
+  content: "";
+  position: absolute;
+  inset: -30% -12% auto;
+  height: 160%;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity .6s ease;
+}
+.mood-up::before {
+  background:
+    radial-gradient(ellipse 70% 80% at 18% 0%, var(--glow-up), transparent 62%),
+    radial-gradient(ellipse 55% 70% at 92% 10%, var(--glow-accent), transparent 58%);
+}
+.mood-down::before {
+  background:
+    radial-gradient(ellipse 70% 80% at 18% 0%, var(--glow-down), transparent 62%),
+    radial-gradient(ellipse 55% 70% at 92% 10%, var(--glow-accent), transparent 58%);
+}
+.mood-flat::before {
+  background:
+    radial-gradient(ellipse 70% 80% at 18% 0%, var(--glow-accent), transparent 62%),
+    radial-gradient(ellipse 50% 60% at 95% 20%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 55%);
+}
 
 /* price flash on poll update */
 @keyframes flash-up { from { background: var(--up-soft); color: var(--up); } to { background: transparent; } }
@@ -101,27 +131,24 @@ body {
 /* skeleton shimmer sweep */
 @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 .skeleton {
-  border-radius: 8px;
-  background: linear-gradient(100deg, var(--hover) 40%, color-mix(in srgb, var(--hover) 55%, var(--text) 12%) 50%, var(--hover) 60%);
+  border-radius: 10px;
+  background: linear-gradient(100deg, var(--hover) 40%, color-mix(in srgb, var(--hover) 50%, var(--text) 14%) 50%, var(--hover) 60%);
   background-size: 200% 100%;
   animation: shimmer 1.5s linear infinite;
 }
 
-@keyframes pop { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
-.pop { animation: pop .18s cubic-bezier(.34, 1.4, .64, 1); }
+@keyframes pop { from { opacity: 0; transform: translateY(-10px) scale(.96); } to { opacity: 1; transform: none; } }
+.pop { animation: pop .2s cubic-bezier(.34, 1.45, .64, 1); }
 
-@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.rise { animation: rise .45s cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .48s cubic-bezier(.22, 1, .36, 1) both; }
 .rise-1 { animation-delay: .05s; } .rise-2 { animation-delay: .11s; } .rise-3 { animation-delay: .17s; }
 
-@keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 var(--up-soft); } 55% { box-shadow: 0 0 0 5px transparent; } }
+@keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 var(--up-soft); } 55% { box-shadow: 0 0 0 6px transparent; } }
 .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
 
-@keyframes breathe { 0%, 100% { opacity: .55; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
-.breathe { animation: breathe 7s ease-in-out infinite; }
-
-@keyframes hero-in { from { opacity: 0; transform: translateY(8px) scale(.995); } to { opacity: 1; transform: none; } }
-.hero-in { animation: hero-in .4s cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes hero-in { from { opacity: 0; transform: translateY(10px) scale(.992); } to { opacity: 1; transform: none; } }
+.hero-in { animation: hero-in .42s cubic-bezier(.22, 1, .36, 1) both; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
