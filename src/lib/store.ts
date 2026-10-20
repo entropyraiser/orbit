@@ -133,7 +133,17 @@ export const useStore = create<State>()(
     }),
     {
       name: "watcher:v1",
-      version: 1,
+      version: 2,
+      // v1 shipped a different snapshot. Replace lists once; keep theme and other prefs.
+      migrate: (persisted) => {
+        const state = (persisted ?? {}) as Record<string, unknown>;
+        return {
+          ...state,
+          lists: DEFAULT_LISTS,
+          activeListId: DEFAULT_LISTS[0].id,
+          selected: DEFAULT_LISTS[0].symbols[0],
+        };
+      },
       merge: (persisted, current) => ({ ...current, ...(persisted as object) }),
     },
   ),

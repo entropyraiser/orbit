@@ -4,6 +4,7 @@ const INDEX_FLAGS: Record<string, string> = {
   "^GSPC": "🇺🇸", "^IXIC": "🇺🇸", "^DJI": "🇺🇸", "^RUT": "🇺🇸",
   "^FTSE": "🇬🇧", "^GDAXI": "🇩🇪", "^FCHI": "🇫🇷", "^STOXX50E": "🇪🇺",
   "^N225": "🇯🇵", "^HSI": "🇭🇰", "^NSEI": "🇮🇳", "^BSESN": "🇮🇳",
+  "^NSEBANK": "🇮🇳", "^CNXIT": "🇮🇳", "^CNXSC": "🇮🇳", "^TNX": "🇺🇸",
   "000001.SS": "🇨🇳", "399001.SZ": "🇨🇳", "^AXJO": "🇦🇺", "^GSPTSE": "🇨🇦",
   "^BVSP": "🇧🇷", "^KS11": "🇰🇷", "^TWII": "🇹🇼", "^JKSE": "🇮🇩", "^KLSE": "🇲🇾",
 };
