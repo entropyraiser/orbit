@@ -54,7 +54,7 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
       autoSize: true,
       handleScroll: false,
       handleScale: false,
-      layout: { background: { type: ColorType.Solid, color: "transparent" }, fontFamily: "ui-rounded, 'SF Pro Rounded', system-ui, sans-serif", fontSize: 12 },
+      layout: { background: { type: ColorType.Solid, color: "transparent" }, fontFamily: "ui-rounded, 'SF Pro Rounded', system-ui, sans-serif", fontSize: 11 },
       grid: { vertLines: { visible: false } },
       rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.08, bottom: 0.04 } },
       timeScale: { borderVisible: false, fixLeftEdge: true, fixRightEdge: true, rightOffset: 0 },
@@ -124,7 +124,7 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
   const w = host.current?.clientWidth ?? 0;
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full min-h-[220px] w-full">
       <div ref={host} className="absolute inset-0" />
       {tip && (
         <div

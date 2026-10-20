@@ -68,7 +68,7 @@ export default function SearchPalette({ onClose }: { onClose: () => void }) {
             return (
               <button key={r.symbol} onMouseEnter={() => setIdx(i)} onClick={() => choose(i)}
                 className={`flex w-full items-center gap-3 rounded-3xl px-3 py-2.5 text-left transition ${i === idx ? "bg-accentsoft" : ""}`}>
-                <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-panel2 text-[16px]">{flagFor(r.symbol, { type: r.type, exchange: r.exchange })}</span>
+                <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-panel2 text-[16px]">{flagFor(r.symbol, { type: r.type, exchange: r.exchange })}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-bold">{r.symbol}</span>
                   <span className="block truncate text-xs text-muted">{r.name}</span>

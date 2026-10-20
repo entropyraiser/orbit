@@ -25,6 +25,6 @@ export default function AnimatedPrice({ value, className }: { value?: number; cl
     return () => cancelAnimationFrame(raf.current);
   }, [value]);
 
-  if (value == null) return <span className="skeleton inline-block h-12 w-48 align-middle lg:h-14" />;
+  if (value == null) return <span className="skeleton inline-block h-14 w-56 align-middle lg:h-[72px]" />;
   return <span className={className}>{fmtPrice(display)}</span>;
 }
