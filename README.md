@@ -2,6 +2,10 @@
 
 A personal, local-only global watchlist: stocks, indices, FX, crypto and commodities from markets around the world on one screen, with Google Finance-style line charts.
 
+![Orbit dark theme](docs/screenshot-dark.png)
+
+![Orbit light theme](docs/screenshot-light.png)
+
 Data comes from Yahoo Finance (unofficial, via `yahoo-finance2`) and may be delayed. Intended for personal use on localhost only.
 
 ## Run
