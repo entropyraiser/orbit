@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Moon, RefreshCw, Search, Sun, TrendingUp } from "lucide-react";
+import { Moon, Search, Sun } from "lucide-react";
 import AssetDetail from "./components/AssetDetail";
 import MarketsStrip from "./components/MarketsStrip";
 import SearchPalette from "./components/SearchPalette";
@@ -40,46 +40,56 @@ export default function App() {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="flex items-center gap-4 px-4 py-3 lg:px-6">
-        <div className="flex items-center gap-2.5">
-          <div className="grid h-8 w-8 place-items-center rounded-lg bg-up/15 text-up"><TrendingUp size={17} strokeWidth={2.5} /></div>
-          <span className="text-[15px] font-semibold tracking-tight">Watcher</span>
+      <header className="mx-auto flex w-full max-w-[1800px] items-center gap-3 px-4 pb-1 pt-4 sm:gap-4 lg:px-6">
+        <div className="flex shrink-0 items-center gap-2.5">
+          <div aria-hidden className="brand-grad grid h-9 w-9 place-items-center rounded-2xl text-lg shadow-lg shadow-accent/30">👀</div>
+          <div className="leading-none">
+            <span className="block text-[17px] font-extrabold lowercase tracking-tight">watcher</span>
+            <span className="mt-0.5 hidden text-[10px] font-medium text-muted sm:block">the whole world, one list</span>
+          </div>
         </div>
         <button onClick={() => setSearching(true)}
-          className="mx-auto flex h-10 w-full max-w-md items-center gap-2.5 rounded-xl border border-line bg-panel px-3.5 text-sm text-muted transition hover:border-muted/40">
-          <Search size={15} /> <span className="flex-1 text-left">Search &amp; add assets</span>
-          <kbd className="rounded border border-line px-1.5 py-0.5 text-[10px]">/</kbd>
+          className="mx-auto flex h-11 w-full max-w-md items-center gap-2.5 rounded-full border border-line bg-panel/80 px-4 text-sm text-muted shadow-sm backdrop-blur transition hover:-translate-y-px hover:border-accent/50 hover:text-fg hover:shadow-md">
+          <Search size={15} /> <span className="flex-1 truncate text-left">Search Tokyo, Texas, or Tether…</span>
+          <kbd className="hidden rounded-full border border-line bg-panel2 px-2 py-0.5 text-[10px] font-semibold sm:block">⌘K</kbd>
         </button>
-        <div className="flex items-center gap-1">
-          <span className="hidden items-center gap-1.5 pr-2 text-xs text-muted sm:flex" title="Quotes refresh every 20s; Yahoo data may be delayed">
-            <RefreshCw size={12} className={quotes.isFetching ? "animate-spin" : ""} />
-            {quotes.isError ? <span className="text-down">Offline</span> : updated ? `Updated ${updated}` : "Loading…"}
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="hidden items-center gap-1.5 rounded-full border border-line bg-panel/70 py-1.5 pl-2.5 pr-3 text-[11px] font-medium text-muted md:flex" title="Quotes refresh every 20s; Yahoo data may be delayed">
+            <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${quotes.isError ? "bg-down" : quotes.isFetching ? "bg-accent2 pulse-dot" : "bg-up pulse-dot"}`} />
+            {quotes.isError ? <span className="text-down">Offline — retrying</span> : updated ? `Live-ish · ${updated}` : "Warming up…"}
           </span>
           <button aria-label="Toggle theme" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="grid h-9 w-9 place-items-center rounded-xl text-muted transition hover:bg-hover hover:text-fg">
+            className="grid h-10 w-10 place-items-center rounded-full border border-line bg-panel/80 text-muted transition hover:rotate-12 hover:text-fg">
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
         </div>
       </header>
 
-      <MarketsStrip quotes={quotes.map} />
+      <div className="mx-auto w-full max-w-[1800px]">
+        <MarketsStrip quotes={quotes.map} />
+      </div>
 
-      <main className="grid min-h-0 flex-1 gap-3 px-3 pb-3 lg:grid-cols-[360px_1fr] lg:px-5 lg:pb-5">
-        <aside className="max-h-[42vh] min-h-0 overflow-hidden rounded-2xl border border-line bg-panel lg:max-h-none">
-          <Watchlist quotes={quotes.map} onAdd={() => setSearching(true)} />
-        </aside>
-        <section className="min-h-0 overflow-y-auto rounded-2xl border border-line bg-panel">
-          {selected ? (
-            <AssetDetail key={selected} symbol={selected} quote={quotes.map.get(selected)} />
-          ) : (
-            <div className="grid h-full place-items-center p-10 text-center">
-              <div>
-                <div className="text-lg font-semibold">Select an asset</div>
-                <div className="mt-1 text-sm text-muted">Pick something from your watchlist or press <kbd className="rounded border border-line px-1.5">/</kbd> to search.</div>
+      {/* Mobile: one natural scrolling column (no trapped short list).
+          Desktop: fixed two-pane app shell. */}
+      <main className="mx-auto min-h-0 w-full max-w-[1800px] flex-1 overflow-y-auto px-3 pb-4 lg:overflow-hidden lg:px-5 lg:pb-5">
+        <div className="grid items-start gap-3 lg:h-full lg:grid-cols-[370px_minmax(0,1fr)] lg:items-stretch xl:grid-cols-[400px_minmax(0,1fr)]">
+          <aside className="card rise rise-1 overflow-hidden rounded-[24px] lg:min-h-0">
+            <Watchlist quotes={quotes.map} onAdd={() => setSearching(true)} />
+          </aside>
+          <section className="card rise rise-2 min-h-[540px] overflow-hidden rounded-[24px] lg:min-h-0 lg:overflow-y-auto">
+            {selected ? (
+              <AssetDetail key={selected} symbol={selected} quote={quotes.map.get(selected)} />
+            ) : (
+              <div className="grid h-full place-items-center p-10 text-center">
+                <div>
+                  <div aria-hidden className="text-5xl">🌍</div>
+                  <div className="mt-3 text-lg font-bold">Pick a corner of the world</div>
+                  <div className="mt-1 text-sm text-muted">Choose something from your watchlist, or press <kbd className="rounded-full border border-line bg-panel2 px-2 py-0.5 text-[11px]">/</kbd> to search anywhere.</div>
+                </div>
               </div>
-            </div>
-          )}
-        </section>
+            )}
+          </section>
+        </div>
       </main>
       {searching && <SearchPalette onClose={() => setSearching(false)} />}
     </div>
