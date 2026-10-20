@@ -11,6 +11,7 @@ export const INDICES: { symbol: string; label: string }[] = [
   { symbol: "000001.SS", label: "Shanghai" },
 ];
 
+/** Shipped starter lists — snapshot of the author's watchlists, used on a fresh install. */
 export const DEFAULT_LISTS: WatchList[] = [
   {
     id: "global",
@@ -23,3 +24,25 @@ export const DEFAULT_LISTS: WatchList[] = [
     symbols: ["GC=F", "CL=F", "BTC-USD", "ETH-USD", "EURUSD=X", "USDINR=X", "USDJPY=X"],
   },
 ];
+
+/** Friendly names shown above the ticker while quotes load (and as a fallback). */
+export const COMMON_NAMES: Record<string, string> = {
+  ...Object.fromEntries(INDICES.map((i) => [i.symbol, i.label])),
+  AAPL: "Apple",
+  NVDA: "NVIDIA",
+  MSFT: "Microsoft",
+  TSM: "TSMC",
+  ASML: "ASML",
+  "7203.T": "Toyota",
+  "005930.KS": "Samsung",
+  "0700.HK": "Tencent",
+  "RELIANCE.NS": "Reliance",
+  "SAP.DE": "SAP",
+  "GC=F": "Gold",
+  "CL=F": "Crude oil",
+  "BTC-USD": "Bitcoin",
+  "ETH-USD": "Ether",
+  "EURUSD=X": "Euro",
+  "USDINR=X": "Dollar / rupee",
+  "USDJPY=X": "Dollar / yen",
+};

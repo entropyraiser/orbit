@@ -3,50 +3,186 @@
 /* ——— Night Market tokens ——— */
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #05060c;
-  --panel: #0c0e16;
-  --panel-2: #141724;
-  --hover: #1c2133;
-  --line: #2a2f44;
-  --text: #f5f6fb;
-  --muted: #a4adc4;
+  --bg: #07080c;
+  --panel: #101218;
+  --panel-2: #181b23;
+  --hover: #22262f;
+  --line: #2c313c;
+  --text: #f3f4f7;
+  --muted: #a3aab8;
   --up: #3ee6a0;
   --down: #ff6b88;
-  --accent: #8d7cff;
-  --accent-2: #3ce0ff;
   --warn: #f5b942;
   --up-soft: color-mix(in srgb, var(--up) 18%, transparent);
   --down-soft: color-mix(in srgb, var(--down) 18%, transparent);
-  --accent-soft: color-mix(in srgb, var(--accent) 20%, transparent);
-  --glow-up: color-mix(in srgb, var(--up) 38%, transparent);
-  --glow-down: color-mix(in srgb, var(--down) 36%, transparent);
-  --glow-accent: color-mix(in srgb, var(--accent) 32%, transparent);
+  --accent: #d4d8e2;
+  --accent-2: #9aa3b5;
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --glow-up: color-mix(in srgb, var(--up) 34%, transparent);
+  --glow-down: color-mix(in srgb, var(--down) 32%, transparent);
+  --glow-accent: transparent;
+  --page-wash: none;
   --shadow: 0 24px 60px -22px rgb(0 0 0 / .72);
-  --card-grad: linear-gradient(180deg, color-mix(in srgb, var(--panel) 82%, var(--accent) 10%), var(--panel) 48%);
+  --card-grad: var(--panel);
+  --brand-fg: #0b0c10;
+  --eye-dot: #0b0c10;
 }
 :root[data-theme="light"] {
   color-scheme: light;
+  --bg: #eef0f3;
+  --panel: #ffffff;
+  --panel-2: #f4f5f7;
+  --hover: #e8eaee;
+  --line: #dfe2e8;
+  --text: #16181d;
+  --muted: #5c6370;
+  --up: #0a704c;
+  --down: #c01532;
+  --warn: #b58102;
+  --up-soft: #d5f3e4;
+  --down-soft: #ffd6dc;
+  --accent: #1c1914;
+  --accent-2: #5c6370;
+  --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+  --glow-up: rgb(10 112 76 / .18);
+  --glow-down: rgb(192 21 50 / .14);
+  --glow-accent: transparent;
+  --page-wash: none;
+  --shadow: 0 22px 48px -24px rgb(24 28 40 / .18);
+  --card-grad: var(--panel);
+  --brand-fg: #ffffff;
+  --eye-dot: #ffffff;
+}
+
+/* Atmosphere tints — optional wash + brand accent. Default is none. */
+:root[data-theme="dark"][data-tint="mint"] {
+  --bg: #060a09;
+  --accent: #3ee6a0;
+  --accent-2: #7af0c4;
+  --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
+  --glow-accent: color-mix(in srgb, var(--accent) 26%, transparent);
+  --page-wash: radial-gradient(1000px 520px at -8% -18%, var(--glow-accent), transparent 58%);
+  --card-grad: linear-gradient(180deg, color-mix(in srgb, var(--panel) 88%, var(--accent) 8%), var(--panel) 50%);
+  --brand-fg: #052616;
+  --eye-dot: #052616;
+}
+:root[data-theme="dark"][data-tint="coral"] {
+  --bg: #0c0708;
+  --accent: #ff6b88;
+  --accent-2: #ff9b7a;
+  --accent-soft: color-mix(in srgb, var(--accent) 18%, transparent);
+  --glow-accent: color-mix(in srgb, var(--accent) 24%, transparent);
+  --page-wash: radial-gradient(1000px 520px at -8% -18%, var(--glow-accent), transparent 58%);
+  --card-grad: linear-gradient(180deg, color-mix(in srgb, var(--panel) 88%, var(--accent) 8%), var(--panel) 50%);
+  --brand-fg: #2a0a12;
+  --eye-dot: #2a0a12;
+}
+:root[data-theme="dark"][data-tint="gold"] {
+  --bg: #0c0b07;
+  --accent: #f0c14a;
+  --accent-2: #ffe08a;
+  --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+  --glow-accent: color-mix(in srgb, var(--accent) 22%, transparent);
+  --page-wash: radial-gradient(1000px 520px at -8% -18%, var(--glow-accent), transparent 58%);
+  --card-grad: linear-gradient(180deg, color-mix(in srgb, var(--panel) 88%, var(--accent) 8%), var(--panel) 50%);
+  --brand-fg: #1c1400;
+  --eye-dot: #1c1400;
+}
+:root[data-theme="dark"][data-tint="violet"] {
+  --bg: #080710;
+  --accent: #8d7cff;
+  --accent-2: #3ce0ff;
+  --accent-soft: color-mix(in srgb, var(--accent) 20%, transparent);
+  --glow-accent: color-mix(in srgb, var(--accent) 28%, transparent);
+  --page-wash:
+    radial-gradient(1100px 560px at -8% -18%, var(--glow-accent), transparent 58%),
+    radial-gradient(900px 480px at 108% -8%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 52%);
+  --card-grad: linear-gradient(180deg, color-mix(in srgb, var(--panel) 82%, var(--accent) 10%), var(--panel) 48%);
+  --brand-fg: #ffffff;
+  --eye-dot: #ffffff;
+}
+
+:root[data-theme="light"][data-tint="mint"] {
+  --bg: #e7f3ec;
+  --panel: #ffffff;
+  --panel-2: #eaf6ef;
+  --hover: #dceee3;
+  --line: #cfe3d6;
+  --accent: #0a704c;
+  --accent-2: #1a9a68;
+  --accent-soft: #d5f3e4;
+  --glow-accent: rgb(10 112 76 / .16);
+  --page-wash: none;
+  --card-grad: var(--panel);
+  --brand-fg: #ffffff;
+  --eye-dot: #ffffff;
+}
+:root[data-theme="light"][data-tint="coral"] {
+  --bg: #f6ecec;
+  --panel: #ffffff;
+  --panel-2: #f8eeee;
+  --hover: #f0e0e0;
+  --line: #ead4d4;
+  --accent: #c01532;
+  --accent-2: #d85a3a;
+  --accent-soft: #ffd6dc;
+  --glow-accent: rgb(192 21 50 / .14);
+  --page-wash: none;
+  --card-grad: var(--panel);
+  --brand-fg: #ffffff;
+  --eye-dot: #ffffff;
+}
+:root[data-theme="light"][data-tint="gold"] {
   --bg: #f3efe4;
   --panel: #fffdf8;
   --panel-2: #f3eee2;
   --hover: #e9e2d2;
   --line: #ddd4c0;
-  --text: #16141c;
   --muted: #5a5448;
-  --up: #0a704c;
-  --down: #c01532;
+  --accent: #8a5a00;
+  --accent-2: #c4921a;
+  --accent-soft: #f6e7c2;
+  --glow-accent: rgb(196 146 26 / .18);
+  --page-wash: none;
+  --shadow: 0 22px 48px -24px rgb(62 48 18 / .28);
+  --card-grad: var(--panel);
+  --brand-fg: #ffffff;
+  --eye-dot: #ffffff;
+}
+:root[data-theme="light"][data-tint="violet"] {
+  --bg: #eeeaf6;
+  --panel: #ffffff;
+  --panel-2: #f3effa;
+  --hover: #e5def3;
+  --line: #ddd4ee;
   --accent: #5b3dff;
   --accent-2: #0a6f96;
-  --warn: #b58102;
-  --up-soft: #d5f3e4;
-  --down-soft: #ffd6dc;
   --accent-soft: #e8e3ff;
-  --glow-up: rgb(10 112 76 / .20);
-  --glow-down: rgb(192 21 50 / .16);
-  --glow-accent: rgb(91 61 255 / .16);
-  --shadow: 0 22px 48px -24px rgb(62 48 18 / .28);
-  --card-grad: linear-gradient(180deg, #ffffff, #fff8ec);
+  --glow-accent: rgb(91 61 255 / .14);
+  --page-wash: none;
+  --card-grad: var(--panel);
+  --brand-fg: #ffffff;
+  --eye-dot: #ffffff;
 }
+
+/* Type — system stacks only, no CDN. */
+:root, :root[data-font="rounded"] {
+  --font-ui: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+:root[data-font="sans"] {
+  --font-ui: "SF Pro Text", "SF Pro Display", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+:root[data-font="serif"] {
+  --font-ui: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+:root[data-font="mono"] {
+  --font-ui: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", Consolas, monospace;
+}
+
+/* Size — rem scale so Tailwind text-* and clamp() prices follow. */
+html { font-size: 16px; }
+html[data-size="sm"] { font-size: 14.5px; }
+html[data-size="lg"] { font-size: 18px; }
 
 @theme inline {
   --color-bg: var(--bg);
@@ -64,26 +200,24 @@
   --color-upsoft: var(--up-soft);
   --color-downsoft: var(--down-soft);
   --color-accentsoft: var(--accent-soft);
-  --font-sans: ui-rounded, "SF Pro Rounded", "SF Pro Display", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-ui);
   --shadow-card: var(--shadow);
 }
 
 html, body, #root { height: 100%; }
 body {
   color: var(--text);
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "tnum" 1, "cv11" 1, "ss01" 1;
-  background:
-    radial-gradient(1100px 560px at -8% -18%, var(--glow-accent), transparent 58%),
-    radial-gradient(900px 480px at 108% -8%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 52%),
-    var(--bg);
+  background-color: var(--bg);
+  background-image: var(--page-wash);
   background-attachment: fixed;
   transition: background-color .28s ease, color .28s ease;
 }
 .num { font-variant-numeric: tabular-nums; }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--brand-fg); }
 :focus { outline: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
 
@@ -92,8 +226,9 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 .card { background: var(--card-grad); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.brand-grad { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+.brand-grad { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--brand-fg); }
 .brand-text { background: linear-gradient(100deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.eye-dot { background: var(--eye-dot); }
 
 /* hero mood washes — the selected asset tints the room */
 .mood-up, .mood-down, .mood-flat { position: relative; isolation: isolate; overflow: hidden; }
@@ -118,8 +253,7 @@ body {
 }
 .mood-flat::before {
   background:
-    radial-gradient(ellipse 70% 80% at 18% 0%, var(--glow-accent), transparent 62%),
-    radial-gradient(ellipse 50% 60% at 95% 20%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 55%);
+    radial-gradient(ellipse 70% 80% at 18% 0%, var(--glow-accent), transparent 62%);
 }
 
 /* price flash on poll update */

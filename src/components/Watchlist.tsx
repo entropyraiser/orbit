@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { GripVertical, Plus, X } from "lucide-react";
 import { useHistory, usePrevious } from "../lib/hooks";
 import { flagFor } from "../lib/flags";
-import { fmtPrice } from "../lib/format";
+import { commonName, fmtPrice } from "../lib/format";
 import { useStore } from "../lib/store";
 import type { Quote } from "../lib/types";
 import ChangePill from "./ChangePill";
@@ -36,8 +36,8 @@ function Row({
         {flagFor(symbol, { type: quote?.type, exchange: quote?.exchange, currency: quote?.currency })}
       </span>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-bold tracking-tight">{symbol}</div>
-        <div className="truncate text-xs text-muted">{quote?.name ?? <span className="skeleton inline-block h-3 w-24 align-middle" />}</div>
+        <div className="truncate text-sm font-bold tracking-tight">{commonName(symbol, quote)}</div>
+        <div className="truncate text-xs text-muted">{symbol}</div>
       </div>
       <div className="hidden shrink-0 min-[420px]:block">
         <Sparkline points={hist.data?.points} baseline={hist.data?.previousClose ?? quote?.prevClose} dir={dir} />
@@ -60,8 +60,11 @@ function Row({
 function ListTabs() {
   const lists = useStore((s) => s.lists);
   const activeId = useStore((s) => s.activeListId);
-  const { setActiveList, addList, renameList, deleteList } = useStore.getState();
+  const { setActiveList, addList, renameList, deleteList, reorderLists } = useStore.getState();
   const [editing, setEditing] = useState<{ id: string | "new"; value: string } | null>(null);
+  const [drag, setDrag] = useState<number | null>(null);
+  const [over, setOver] = useState<number | null>(null);
+  const dragged = useRef(false);
   const input = useRef<HTMLInputElement>(null);
   useEffect(() => { input.current?.focus(); input.current?.select(); }, [editing?.id]);
 
@@ -74,18 +77,24 @@ function ListTabs() {
 
   return (
     <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto px-3.5 pb-2 pt-3.5">
-      {lists.map((l) =>
+      {lists.map((l, i) =>
         editing?.id === l.id ? (
           <input key={l.id} ref={input} value={editing.value} onChange={(e) => setEditing({ id: l.id, value: e.target.value })}
             onBlur={commit} onKeyDown={(e) => { if (e.key === "Enter") commit(); if (e.key === "Escape") setEditing(null); }}
             className="w-28 shrink-0 rounded-full border border-accent/60 bg-transparent px-3.5 py-1.5 text-xs font-semibold outline-none" />
         ) : (
-          <button key={l.id} onClick={() => setActiveList(l.id)}
+          <button key={l.id}
+            draggable
+            onDragStart={() => { dragged.current = true; setDrag(i); }}
+            onDragOver={(e) => { e.preventDefault(); setOver(i); }}
+            onDragEnd={() => { setDrag(null); setOver(null); window.setTimeout(() => { dragged.current = false; }, 0); }}
+            onDrop={() => { if (drag != null) reorderLists(drag, i); setDrag(null); setOver(null); }}
+            onClick={() => { if (dragged.current) return; setActiveList(l.id); }}
             onDoubleClick={() => setEditing({ id: l.id, value: l.name })}
-            title="Double-click to rename"
-            className={`group/tab flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+            title="Drag to reorder · double-click to rename"
+            className={`group/tab flex shrink-0 cursor-grab items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition active:cursor-grabbing ${
               l.id === activeId ? "bg-fg text-bg shadow-md" : "bg-panel2/70 text-muted hover:bg-hover hover:text-fg"
-            }`}>
+            } ${drag === i ? "scale-95 opacity-50" : ""} ${over === i && drag !== i ? "ring-2 ring-accent" : ""}`}>
             {l.name}
             <span className={`rounded-full px-1.5 text-[10px] ${l.id === activeId ? "bg-bg/20" : "bg-hover"}`}>{l.symbols.length}</span>
             {l.id === activeId && lists.length > 1 && (
@@ -102,7 +111,7 @@ function ListTabs() {
           className="w-28 shrink-0 rounded-full border border-accent/60 bg-transparent px-3.5 py-1.5 text-xs outline-none" />
       ) : (
         <button aria-label="New list" onClick={() => setEditing({ id: "new", value: "" })}
-          className="shrink-0 rounded-full bg-panel2/70 p-2 text-muted transition hover:bg-accent hover:text-white"><Plus size={13} /></button>
+          className="shrink-0 rounded-full bg-panel2/70 p-2 text-muted transition hover:bg-accent hover:text-bg"><Plus size={13} /></button>
       )}
     </div>
   );
@@ -143,7 +152,7 @@ export default function Watchlist({ quotes, onAdd }: { quotes: Map<string, Quote
             <div aria-hidden className="text-4xl">🌱</div>
             <div className="mt-2 text-sm font-bold">A blank map, full of promise</div>
             <div className="mt-1 text-xs leading-relaxed text-muted">Search for a stock, index, currency or crypto — anywhere on Earth — and pin it here.</div>
-            <button onClick={onAdd} className="brand-grad mt-4 rounded-full px-4 py-2 text-xs font-bold text-white shadow-lg shadow-accent/25 transition hover:-translate-y-px">Add your first asset</button>
+            <button onClick={onAdd} className="brand-grad mt-4 rounded-full px-4 py-2 text-xs font-bold shadow-lg shadow-accent/25 transition hover:-translate-y-px">Add your first asset</button>
           </div>
         )}
       </div>

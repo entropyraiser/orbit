@@ -112,7 +112,7 @@ export default function AssetDetail({ quote, symbol }: { quote?: Quote; symbol: 
             {m.label}{quote?.tz ? ` · ${localTime(quote.tz, now)}` : ""}
           </div>
           {!inList && (
-            <button onClick={() => addSymbol(symbol)} className="brand-grad flex items-center gap-1 rounded-full px-3.5 py-2 text-xs font-bold text-white shadow-lg shadow-accent/25 transition hover:-translate-y-px">
+              <button onClick={() => addSymbol(symbol)} className="brand-grad flex items-center gap-1 rounded-full px-3.5 py-2 text-xs font-bold shadow-lg shadow-accent/25 transition hover:-translate-y-px">
               <Plus size={13} /> Add to list
             </button>
           )}
@@ -143,7 +143,7 @@ export default function AssetDetail({ quote, symbol }: { quote?: Quote; symbol: 
               <span aria-hidden className="grid h-12 w-12 place-items-center rounded-full bg-downsoft text-down"><CloudOff size={20} /></span>
               <div className="text-sm font-bold">The chart went on a coffee break</div>
               <div className="max-w-sm text-xs leading-relaxed text-muted">We couldn’t load this range. {(hist.error as Error).message}</div>
-              <button onClick={() => hist.refetch()} className="brand-grad mt-2 rounded-full px-4 py-2 text-xs font-bold text-white shadow-lg shadow-accent/25">Try again</button>
+              <button onClick={() => hist.refetch()} className="brand-grad mt-2 rounded-full px-4 py-2 text-xs font-bold shadow-lg shadow-accent/25">Try again</button>
             </div>
           ) : !pts.length ? (
             hist.isFetching ? (

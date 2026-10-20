@@ -1,3 +1,16 @@
+import { COMMON_NAMES } from "./defaults";
+
+/** Common name above the ticker: "Nifty 50" before "^NSEI". */
+export function commonName(symbol: string, quote?: { name?: string; longName?: string }): string {
+  if (COMMON_NAMES[symbol]) return COMMON_NAMES[symbol];
+  const raw = quote?.name || quote?.longName;
+  if (!raw) return symbol;
+  if (raw === raw.toUpperCase() && /[A-Z]{3,}/.test(raw)) {
+    return raw.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  return raw;
+}
+
 export function fmtPrice(n?: number): string {
   if (n == null || !isFinite(n)) return "—";
   const abs = Math.abs(n);

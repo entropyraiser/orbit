@@ -29,7 +29,7 @@ export default function SearchPalette({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/55 px-3 pt-[10vh] backdrop-blur-md sm:px-4" onMouseDown={onClose}>
       <div className="pop w-full max-w-xl overflow-hidden rounded-[28px] border border-line bg-panel shadow-2xl" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Search assets">
         <div className="flex items-center gap-3 border-b border-line px-4">
-          <span aria-hidden className="brand-grad grid h-8 w-8 shrink-0 place-items-center rounded-full text-white"><Search size={14} /></span>
+          <span aria-hidden className="brand-grad grid h-8 w-8 shrink-0 place-items-center rounded-full"><Search size={14} /></span>
           <input
             ref={ref} value={q} onChange={(e) => setQ(e.target.value)}
             placeholder={`Search the planet… adds to “${listName}”`}
@@ -70,13 +70,13 @@ export default function SearchPalette({ onClose }: { onClose: () => void }) {
                 className={`flex w-full items-center gap-3 rounded-3xl px-3 py-2.5 text-left transition ${i === idx ? "bg-accentsoft" : ""}`}>
                 <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-panel2 text-[16px]">{flagFor(r.symbol, { type: r.type, exchange: r.exchange })}</span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-bold">{r.symbol}</span>
-                  <span className="block truncate text-xs text-muted">{r.name}</span>
+                  <span className="block truncate text-sm font-bold">{r.name || r.symbol}</span>
+                  <span className="block truncate text-xs text-muted">{r.symbol}</span>
                 </span>
                 <span className="hidden shrink-0 rounded-full bg-panel2 px-2 py-0.5 text-[10px] font-semibold text-muted sm:block">{r.exchange}</span>
                 {added
                   ? <span className="flex shrink-0 items-center gap-1 rounded-full bg-upsoft px-2 py-0.5 text-[10px] font-bold text-up"><Check size={11} /> Watching</span>
-                  : i === idx && <span className="brand-grad shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold text-white">Add ↵</span>}
+                  : i === idx && <span className="brand-grad shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold">Add ↵</span>}
               </button>
             );
           })}

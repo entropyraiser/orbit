@@ -52,7 +52,7 @@ echo "$PORT" >"$PORT_FILE"
 for _ in $(seq 1 30); do
   if curl -fs "http://127.0.0.1:$PORT/" >/dev/null 2>&1; then
     echo
-    echo "Watcher is running:  http://127.0.0.1:$PORT"
+    echo "Orbit is running:    http://127.0.0.1:$PORT"
     echo "Logs:                $LOG_FILE"
     echo "Stop / remove:       ./uninstall.sh"
     exit 0

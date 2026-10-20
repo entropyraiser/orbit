@@ -1,4 +1,4 @@
-/** Flag / icon emoji that makes the "global" in Watcher tangible. Purely presentational. */
+/** Flag / icon emoji that makes the "global" in Orbit tangible. Purely presentational. */
 
 const INDEX_FLAGS: Record<string, string> = {
   "^GSPC": "🇺🇸", "^IXIC": "🇺🇸", "^DJI": "🇺🇸", "^RUT": "🇺🇸",

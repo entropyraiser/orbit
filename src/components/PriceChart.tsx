@@ -41,6 +41,9 @@ interface Props {
 
 export default function PriceChart({ points, tz, range, baseline, dir }: Props) {
   const theme = useStore((s) => s.theme);
+  const tint = useStore((s) => s.tint);
+  const font = useStore((s) => s.font);
+  const size = useStore((s) => s.size);
   const host = useRef<HTMLDivElement>(null);
   const chart = useRef<IChartApi | null>(null);
   const series = useRef<ISeriesApi<"Area"> | null>(null);
@@ -54,8 +57,8 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
       autoSize: true,
       handleScroll: false,
       handleScale: false,
-      layout: { background: { type: ColorType.Solid, color: "transparent" }, fontFamily: "ui-rounded, 'SF Pro Rounded', system-ui, sans-serif", fontSize: 11 },
-      grid: { vertLines: { visible: false } },
+      layout: { background: { type: ColorType.Solid, color: "transparent" }, fontFamily: css("--font-ui") || "system-ui, sans-serif", fontSize: 11 },
+      grid: { vertLines: { visible: false }, horzLines: { visible: false } },
       rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.08, bottom: 0.04 } },
       timeScale: { borderVisible: false, fixLeftEdge: true, fixRightEdge: true, rightOffset: 0 },
       crosshair: { mode: CrosshairMode.Magnet, vertLine: { labelVisible: false, style: LineStyle.Solid, width: 1 }, horzLine: { visible: false, labelVisible: false } },
@@ -85,11 +88,15 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
       crosshairMarkerBackgroundColor: color,
     });
     chart.current?.applyOptions({
-      layout: { textColor: css("--muted") },
-      grid: { horzLines: { color: css("--line") } },
+      layout: {
+        textColor: css("--muted"),
+        fontFamily: css("--font-ui") || "system-ui, sans-serif",
+        fontSize: size === "lg" ? 13 : size === "sm" ? 10 : 11,
+      },
+      grid: { vertLines: { visible: false }, horzLines: { visible: false } },
       crosshair: { vertLine: { color: css("--muted") } },
     });
-  }, [dir, theme]);
+  }, [dir, theme, tint, font, size]);
 
   // data
   useEffect(() => {
