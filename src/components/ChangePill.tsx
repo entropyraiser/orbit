@@ -1,15 +1,12 @@
 import { dirOf, fmtPct } from "../lib/format";
 
-/** Pill change badge — arrow + sign so direction never relies on colour alone. */
+/** Quiet change figure. The sign carries direction, colour only reinforces it. */
 export default function ChangePill({ value, size = "sm" }: { value?: number; size?: "sm" | "lg" }) {
   const dir = dirOf(value);
-  const cls = dir === "up" ? "bg-upsoft text-up" : dir === "down" ? "bg-downsoft text-down" : "bg-hover text-muted";
-  const arrow = dir === "up" ? "▲" : dir === "down" ? "▼" : "•";
+  const solid = size === "lg";
+  const cls = dir === "up" ? (solid ? "bg-up text-onsem" : "bg-upsoft text-up") : dir === "down" ? (solid ? "bg-down text-onsem" : "bg-downsoft text-down") : "bg-hover text-muted";
   return (
-    <span className={`num inline-flex shrink-0 items-center gap-1 rounded-full font-bold ${cls} ${
-      size === "lg" ? "px-3 py-1 text-sm" : "px-2 py-0.5 text-[11px]"
-    }`}>
-      <span aria-hidden className={size === "lg" ? "text-[10px]" : "text-[8px]"}>{arrow}</span>
+    <span className={`num inline-flex shrink-0 items-center rounded-full font-mono font-medium ${cls} ${size === "lg" ? "px-4 py-1 text-base" : "px-2 text-xs"}`}>
       {fmtPct(value)}
     </span>
   );

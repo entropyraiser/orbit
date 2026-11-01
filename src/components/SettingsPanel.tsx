@@ -1,12 +1,14 @@
 import { useEffect, useRef } from "react";
 import { FONTS, SIZES, TINTS, useStore, type FontFace, type Tint } from "../lib/store";
 
-const TINT_SWATCH: Record<Tint, string> = {
-  none: "#eef0f3",
-  mint: "#c8ead8",
-  coral: "#f3d0d4",
-  gold: "#f3efe4",
-  violet: "#ddd6f5",
+/** Up and down colours per palette, shown as a split swatch. */
+const TINT_SWATCH: Record<Tint, [string, string]> = {
+  signal: ["#c6ff3d", "#ff5c7a"],
+  ocean: ["#3dd6ff", "#ff9a3d"],
+  sunset: ["#ffc247", "#ff4d6d"],
+  mint: ["#3ee6a0", "#ff6b88"],
+  violet: ["#b69cff", "#ff7ab8"],
+  mono: ["#f4f4f5", "#ff5c7a"],
 };
 
 const FONT_FAMILY: Record<FontFace, string> = {
@@ -26,7 +28,7 @@ function Seg<T extends string>({
 }) {
   return (
     <div>
-      <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted">{label}</div>
+      <div className="mb-2 text-xs text-muted">{label}</div>
       <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-1.5">
         {options.map((opt) => {
           const on = opt.id === value;
@@ -37,8 +39,8 @@ function Seg<T extends string>({
               aria-checked={on}
               title={opt.hint}
               onClick={() => onChange(opt.id)}
-              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${
-                on ? "border-transparent bg-fg text-bg shadow-md" : "border-line bg-panel2/70 text-muted hover:bg-hover hover:text-fg"
+              className={`h-8 rounded-full border px-3 text-xs font-medium transition-colors ${
+                on ? "border-line bg-hover text-fg" : "border-transparent text-muted hover:bg-hover hover:text-fg"
               }`}
             >
               {opt.label}
@@ -52,7 +54,8 @@ function Seg<T extends string>({
 
 export default function SettingsPanel({ onClose }: { onClose: () => void }) {
   const theme = useStore((s) => s.theme);
-  const tint = useStore((s) => s.tint) ?? "none";
+  const tint = useStore((s) => s.tint);
+  const activeTint = TINTS.some((o) => o.id === tint) ? tint : "signal";
   const font = useStore((s) => s.font) ?? "rounded";
   const size = useStore((s) => s.size) ?? "md";
   const { setTheme, setTint, setFont, setSize } = useStore.getState();
@@ -67,21 +70,21 @@ export default function SettingsPanel({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/45 px-3 pt-[12vh] backdrop-blur-sm sm:px-4" onMouseDown={onClose}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 pt-[12vh]" onMouseDown={onClose}>
       <div
         ref={panel}
-        className="pop w-full max-w-md overflow-hidden rounded-[28px] border border-line bg-panel shadow-2xl"
+        className="pop w-full max-w-md overflow-hidden rounded-2xl border border-line bg-panel"
         onMouseDown={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label="Appearance"
       >
-        <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
+        <div className="flex items-center justify-between border-b border-line px-5 py-4">
           <div>
-            <div className="text-sm font-extrabold tracking-tight">Appearance</div>
-            <div className="text-[11px] text-muted">How the room feels. Saved on this machine.</div>
+            <div className="text-sm font-medium">Appearance</div>
+            <div className="text-xs text-muted">Saved on this machine</div>
           </div>
-          <button onClick={onClose} className="rounded-full border border-line px-2.5 py-1 text-[11px] font-bold text-muted hover:text-fg">
+          <button onClick={onClose} className="rounded border border-line bg-panel2 px-1.5 font-mono text-[11px] text-faint transition-colors hover:text-fg">
             Esc
           </button>
         </div>
@@ -95,11 +98,10 @@ export default function SettingsPanel({ onClose }: { onClose: () => void }) {
           />
 
           <div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted">Backdrop</div>
-            <p className="mb-2 text-[11px] leading-relaxed text-muted">The colour of the room behind the cards — including around the settings button.</p>
-            <div role="radiogroup" aria-label="Backdrop" className="grid grid-cols-5 gap-1.5">
+            <div className="mb-2 text-xs text-muted">Palette</div>
+            <div role="radiogroup" aria-label="Palette" className="grid grid-cols-3 gap-1.5">
               {TINTS.map((opt) => {
-                const on = opt.id === tint;
+                const on = opt.id === activeTint;
                 return (
                   <button
                     key={opt.id}
@@ -107,11 +109,11 @@ export default function SettingsPanel({ onClose }: { onClose: () => void }) {
                     aria-checked={on}
                     title={opt.hint}
                     onClick={() => setTint(opt.id)}
-                    className={`flex flex-col items-center gap-1.5 rounded-2xl border px-1 py-2 text-[10px] font-bold transition ${
+                    className={`flex flex-col items-center gap-2 rounded-lg border px-1 py-2 text-xs transition-colors ${
                       on ? "border-fg bg-hover text-fg" : "border-line text-muted hover:border-muted hover:text-fg"
                     }`}
                   >
-                    <span aria-hidden className="h-6 w-6 rounded-full shadow-inner ring-1 ring-black/10" style={{ background: TINT_SWATCH[opt.id] }} />
+                    <span aria-hidden className="h-5 w-5 rounded-full ring-1 ring-black/10" style={{ background: `linear-gradient(135deg, ${TINT_SWATCH[opt.id][0]} 50%, ${TINT_SWATCH[opt.id][1]} 50%)` }} />
                     {opt.label}
                   </button>
                 );
@@ -120,7 +122,7 @@ export default function SettingsPanel({ onClose }: { onClose: () => void }) {
           </div>
 
           <div>
-            <div className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted">Typeface</div>
+            <div className="mb-2 text-xs text-muted">Typeface</div>
             <div role="radiogroup" aria-label="Typeface" className="grid grid-cols-2 gap-1.5">
               {FONTS.map((opt) => {
                 const on = opt.id === font;
@@ -131,12 +133,12 @@ export default function SettingsPanel({ onClose }: { onClose: () => void }) {
                     aria-checked={on}
                     onClick={() => setFont(opt.id)}
                     style={{ fontFamily: FONT_FAMILY[opt.id] }}
-                    className={`rounded-2xl border px-3 py-2.5 text-left transition ${
+                    className={`rounded-lg border px-3 py-2 text-left transition-colors ${
                       on ? "border-fg bg-hover" : "border-line hover:border-muted"
                     }`}
                   >
-                    <span className="block text-sm font-bold tracking-tight">Aa 342</span>
-                    <span className="block text-[11px] text-muted">{opt.label}</span>
+                    <span className="block text-sm font-medium">Aa 342</span>
+                    <span className="block text-xs text-muted">{opt.label}</span>
                   </button>
                 );
               })}

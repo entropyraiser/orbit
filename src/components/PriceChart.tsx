@@ -57,15 +57,15 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
       autoSize: true,
       handleScroll: false,
       handleScale: false,
-      layout: { background: { type: ColorType.Solid, color: "transparent" }, fontFamily: css("--font-ui") || "system-ui, sans-serif", fontSize: 11 },
+      layout: { background: { type: ColorType.Solid, color: "transparent" }, fontFamily: css("--font-mono") || "ui-monospace, monospace", fontSize: 11 },
       grid: { vertLines: { visible: false }, horzLines: { visible: false } },
       rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.08, bottom: 0.04 } },
       timeScale: { borderVisible: false, fixLeftEdge: true, fixRightEdge: true, rightOffset: 0 },
       crosshair: { mode: CrosshairMode.Magnet, vertLine: { labelVisible: false, style: LineStyle.Solid, width: 1 }, horzLine: { visible: false, labelVisible: false } },
     });
     const s = c.addSeries(AreaSeries, {
-      lineWidth: 3, priceLineVisible: false, lastValueVisible: false,
-      crosshairMarkerRadius: 6, crosshairMarkerBorderWidth: 2,
+      lineWidth: 3, priceLineVisible: false, lastValueVisible: true,
+      crosshairMarkerRadius: 5, crosshairMarkerBorderWidth: 2,
     });
     chart.current = c;
     series.current = s;
@@ -82,7 +82,7 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
     const color = dir === "down" ? css("--down") : dir === "up" ? css("--up") : css("--accent");
     series.current?.applyOptions({
       lineColor: color,
-      topColor: `color-mix(in srgb, ${color} 36%, transparent)`,
+      topColor: `color-mix(in srgb, ${color} 18%, transparent)`,
       bottomColor: `color-mix(in srgb, ${color} 0%, transparent)`,
       crosshairMarkerBorderColor: css("--panel"),
       crosshairMarkerBackgroundColor: color,
@@ -90,11 +90,11 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
     chart.current?.applyOptions({
       layout: {
         textColor: css("--muted"),
-        fontFamily: css("--font-ui") || "system-ui, sans-serif",
+        fontFamily: css("--font-mono") || "ui-monospace, monospace",
         fontSize: size === "lg" ? 13 : size === "sm" ? 10 : 11,
       },
-      grid: { vertLines: { visible: false }, horzLines: { visible: false } },
-      crosshair: { vertLine: { color: css("--muted") } },
+      grid: { vertLines: { visible: false }, horzLines: { visible: true, color: css("--line") } },
+      crosshair: { vertLine: { color: css("--faint") } },
     });
   }, [dir, theme, tint, font, size]);
 
@@ -135,10 +135,10 @@ export default function PriceChart({ points, tz, range, baseline, dir }: Props) 
       <div ref={host} className="absolute inset-0" />
       {tip && (
         <div
-          className="pointer-events-none absolute z-10 rounded-2xl border border-line bg-panel/95 px-3 py-2 shadow-xl backdrop-blur"
+          className="pointer-events-none absolute z-10 rounded-lg border border-line bg-panel px-3 py-2"
           style={{ left: Math.min(Math.max(tip.x - 60, 4), Math.max(w - 130, 4)), top: 4 }}
         >
-          <div className="num text-sm font-semibold">{fmtPrice(tip.price)}</div>
+          <div className="num font-mono text-sm">{fmtPrice(tip.price)}</div>
           <div className="text-[11px] text-muted">{tipText}</div>
         </div>
       )}

@@ -78,3 +78,17 @@ const SUFFIX_REGIONS: Record<string, string> = {
 export function regionFor(symbol: string): string | undefined {
   return SUFFIX_REGIONS[symbol.toUpperCase().split(".").pop() ?? ""];
 }
+
+/** Two-letter mark for the avatar circle: country code from the flag, else the symbol's first letters. */
+export function markFor(
+  symbol: string,
+  opts?: { type?: string; exchange?: string; currency?: string },
+): string {
+  const f = flagFor(symbol, opts);
+  const pts = [...f].map((c) => c.codePointAt(0)!);
+  if (pts.length === 2 && pts.every((p) => p >= 0x1f1e6 && p <= 0x1f1ff)) {
+    return pts.map((p) => String.fromCharCode(p - 0x1f1e6 + 65)).join("");
+  }
+  if (f === "₿" || f === "Ξ") return f;
+  return symbol.replace(/^\^/, "").slice(0, 2).toUpperCase();
+}

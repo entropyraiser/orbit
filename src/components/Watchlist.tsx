@@ -26,32 +26,31 @@ function Row({
       tabIndex={0}
       onClick={onSelect}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
-      className={`group relative flex cursor-pointer items-center gap-2.5 rounded-[22px] px-2.5 py-2.5 transition duration-200 ${
-        active ? "bg-accentsoft shadow-[inset_0_0_0_1px_var(--accent-soft),0_8px_22px_-12px_var(--glow-accent)]" : "hover:translate-x-0.5 hover:bg-hover/70"
-      } ${dragging ? "scale-[.97] rotate-1 opacity-50 shadow-lg" : ""} ${over ? "shadow-[inset_0_0_0_2px_var(--accent)]" : ""}`}
+      className={`group relative flex h-14 cursor-pointer items-center gap-3 rounded-xl px-3 transition-colors ${
+        active ? "bg-panel2 shadow-[inset_0_0_0_1px_var(--line)]" : "hover:bg-hover/60"
+      } ${dragging ? "opacity-50" : ""} ${over ? "shadow-[inset_0_0_0_1px_var(--accent)]" : ""}`}
     >
-      {active && <span aria-hidden className="brand-grad absolute left-0 top-3 h-[calc(100%-24px)] w-1 rounded-full" />}
-      <span aria-hidden className="-ml-1 hidden cursor-grab text-muted/50 group-hover:block" title="Drag to reorder"><GripVertical size={13} /></span>
-      <span aria-hidden className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-[17px] ${active ? "bg-panel shadow-sm" : "bg-panel2"}`}>
+      <span aria-hidden className="absolute left-0 hidden cursor-grab text-faint group-hover:block" title="Drag to reorder"><GripVertical size={12} strokeWidth={1.5} /></span>
+      <span aria-hidden className={`grid h-10 w-10 shrink-0 place-items-center rounded-full bg-hover text-[18px] transition-shadow ${active ? "shadow-[0_0_0_2px_var(--accent)]" : ""}`}>
         {flagFor(symbol, { type: quote?.type, exchange: quote?.exchange, currency: quote?.currency })}
       </span>
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-bold tracking-tight">{commonName(symbol, quote)}</div>
-        <div className="truncate text-xs text-muted">{symbol}</div>
+        <div className="truncate text-sm font-medium">{commonName(symbol, quote)}</div>
+        <div className="truncate font-mono text-xs text-muted">{symbol}</div>
       </div>
       <div className="hidden shrink-0 min-[420px]:block">
         <Sparkline points={hist.data?.points} baseline={hist.data?.previousClose ?? quote?.prevClose} dir={dir} />
       </div>
-      <div key={quote?.price} className={`min-w-[4.5rem] shrink-0 rounded-2xl px-1 py-0.5 text-right ${flash}`}>
-        <div className="num text-sm font-bold tracking-tight">{quote ? fmtPrice(quote.price) : <span className="skeleton ml-auto block h-4 w-16" />}</div>
-        <div className="mt-0.5 flex justify-end">{quote ? <ChangePill value={quote.changePct} /> : <span className="skeleton block h-4 w-12" />}</div>
+      <div key={quote?.price} className={`min-w-[4.5rem] shrink-0 rounded-md px-1 text-right ${flash}`}>
+        <div className="num font-mono text-sm">{quote ? fmtPrice(quote.price) : <span className="skeleton ml-auto block h-4 w-16" />}</div>
+        <div className="flex justify-end">{quote ? <ChangePill value={quote.changePct} /> : <span className="skeleton block h-4 w-12" />}</div>
       </div>
       <button
         aria-label={`Remove ${symbol}`}
         onClick={(e) => { e.stopPropagation(); onRemove(); }}
-        className="absolute -right-0.5 -top-0.5 hidden rounded-full bg-panel p-1 text-muted shadow ring-1 ring-line hover:text-down group-hover:block focus:block"
+        className="absolute right-1 top-1 hidden rounded-md bg-panel p-1 text-muted ring-1 ring-line hover:text-down group-hover:block focus:block"
       >
-        <X size={11} />
+        <X size={12} strokeWidth={1.5} />
       </button>
     </div>
   );
@@ -76,12 +75,12 @@ function ListTabs() {
   };
 
   return (
-    <div className="no-scrollbar flex items-center gap-1.5 overflow-x-auto px-3.5 pb-2 pt-3.5">
+    <div className="no-scrollbar flex items-center gap-1 overflow-x-auto px-3 pb-2 pt-3">
       {lists.map((l, i) =>
         editing?.id === l.id ? (
           <input key={l.id} ref={input} value={editing.value} onChange={(e) => setEditing({ id: l.id, value: e.target.value })}
             onBlur={commit} onKeyDown={(e) => { if (e.key === "Enter") commit(); if (e.key === "Escape") setEditing(null); }}
-            className="w-28 shrink-0 rounded-full border border-accent/60 bg-transparent px-3.5 py-1.5 text-xs font-semibold outline-none" />
+            className="h-8 w-28 shrink-0 rounded-full border border-accent/60 bg-transparent px-3 text-xs font-medium outline-none" />
         ) : (
           <button key={l.id}
             draggable
@@ -92,15 +91,15 @@ function ListTabs() {
             onClick={() => { if (dragged.current) return; setActiveList(l.id); }}
             onDoubleClick={() => setEditing({ id: l.id, value: l.name })}
             title="Drag to reorder · double-click to rename"
-            className={`group/tab flex shrink-0 cursor-grab items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition active:cursor-grabbing ${
-              l.id === activeId ? "bg-fg text-bg shadow-md" : "bg-panel2/70 text-muted hover:bg-hover hover:text-fg"
-            } ${drag === i ? "scale-95 opacity-50" : ""} ${over === i && drag !== i ? "ring-2 ring-accent" : ""}`}>
+            className={`group/tab flex h-8 shrink-0 cursor-grab items-center gap-2 rounded-full px-3 text-xs font-medium transition-colors active:cursor-grabbing ${
+              l.id === activeId ? "bg-panel2 text-fg shadow-[inset_0_0_0_1px_var(--line)]" : "text-muted hover:bg-hover hover:text-fg"
+            } ${drag === i ? "opacity-50" : ""} ${over === i && drag !== i ? "ring-1 ring-accent" : ""}`}>
             {l.name}
-            <span className={`rounded-full px-1.5 text-[10px] ${l.id === activeId ? "bg-bg/20" : "bg-hover"}`}>{l.symbols.length}</span>
+            <span className="num font-mono text-[11px] text-faint">{l.symbols.length}</span>
             {l.id === activeId && lists.length > 1 && (
               <span role="button" aria-label="Delete list" tabIndex={0}
                 onClick={(e) => { e.stopPropagation(); if (confirm(`Delete list "${l.name}"?`)) deleteList(l.id); }}
-                className="-mr-1 hidden rounded-full p-0.5 hover:bg-bg/20 group-hover/tab:inline-flex"><X size={10} /></span>
+                className="-mr-1 hidden rounded p-0.5 hover:bg-hover group-hover/tab:inline-flex"><X size={12} strokeWidth={1.5} /></span>
             )}
           </button>
         ),
@@ -108,10 +107,10 @@ function ListTabs() {
       {editing?.id === "new" ? (
         <input ref={input} value={editing.value} placeholder="List name" onChange={(e) => setEditing({ id: "new", value: e.target.value })}
           onBlur={commit} onKeyDown={(e) => { if (e.key === "Enter") commit(); if (e.key === "Escape") setEditing(null); }}
-          className="w-28 shrink-0 rounded-full border border-accent/60 bg-transparent px-3.5 py-1.5 text-xs outline-none" />
+          className="h-8 w-28 shrink-0 rounded-full border border-accent/60 bg-transparent px-3 text-xs outline-none" />
       ) : (
         <button aria-label="New list" onClick={() => setEditing({ id: "new", value: "" })}
-          className="shrink-0 rounded-full bg-panel2/70 p-2 text-muted transition hover:bg-accent hover:text-bg"><Plus size={13} /></button>
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-hover hover:text-fg"><Plus size={16} strokeWidth={1.5} /></button>
       )}
     </div>
   );
@@ -148,18 +147,17 @@ export default function Watchlist({ quotes, onAdd }: { quotes: Map<string, Quote
           />
         ))}
         {list.symbols.length === 0 && (
-          <div className="col-span-full mx-2 mt-4 rounded-3xl border border-dashed border-line bg-panel2/40 p-7 text-center">
-            <div aria-hidden className="text-4xl">🌱</div>
-            <div className="mt-2 text-sm font-bold">A blank map, full of promise</div>
-            <div className="mt-1 text-xs leading-relaxed text-muted">Search for a stock, index, currency or crypto — anywhere on Earth — and pin it here.</div>
-            <button onClick={onAdd} className="brand-grad mt-4 rounded-full px-4 py-2 text-xs font-bold shadow-lg shadow-accent/25 transition hover:-translate-y-px">Add your first asset</button>
+          <div className="col-span-full mx-2 mt-4 rounded-2xl border border-line bg-panel2/40 p-6 text-center">
+            <div className="text-sm font-medium">This list is empty</div>
+            <div className="mt-1 text-xs leading-relaxed text-muted">Search for a stock, index, currency or crypto and add it here.</div>
+            <button onClick={onAdd} className="btn-accent mt-4 h-8 rounded-full px-4 text-xs font-medium transition-opacity hover:opacity-90">Add asset</button>
           </div>
         )}
       </div>
       {list.symbols.length > 0 && (
-        <div className="px-3.5 pb-3.5 pt-1">
-          <button onClick={onAdd} className="flex w-full items-center justify-center gap-1.5 rounded-full border border-dashed border-line py-2 text-xs font-bold text-muted transition hover:border-accent/60 hover:text-accent">
-            <Plus size={13} /> Add asset <kbd className="rounded-full bg-panel2 px-1.5 text-[9px]">/</kbd>
+        <div className="px-3 pb-3 pt-1">
+          <button onClick={onAdd} className="flex h-8 w-full items-center justify-center gap-2 rounded-full border border-line text-xs font-medium text-muted transition-colors hover:bg-hover hover:text-fg">
+            <Plus size={16} strokeWidth={1.5} /> Add asset <kbd className="rounded border border-line bg-panel2 px-1.5 font-mono text-[11px] text-faint">/</kbd>
           </button>
         </div>
       )}

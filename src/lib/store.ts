@@ -4,20 +4,21 @@ import { DEFAULT_LISTS } from "./defaults";
 import type { Range, WatchList } from "./types";
 
 export type Theme = "dark" | "light";
-export type Tint = "none" | "mint" | "coral" | "gold" | "violet";
+export type Tint = "signal" | "ocean" | "sunset" | "mint" | "violet" | "mono";
 export type FontFace = "rounded" | "sans" | "serif" | "mono";
 export type UiSize = "sm" | "md" | "lg";
 
 export const TINTS: { id: Tint; label: string; hint: string }[] = [
-  { id: "none", label: "Plain", hint: "Cool gray, no tint" },
-  { id: "mint", label: "Mint", hint: "Green room" },
-  { id: "coral", label: "Coral", hint: "Blush room" },
-  { id: "gold", label: "Gold", hint: "Warm cream" },
-  { id: "violet", label: "Violet", hint: "Lavender room" },
+  { id: "signal", label: "Signal", hint: "Lime and coral" },
+  { id: "ocean", label: "Ocean", hint: "Cyan and orange, easy on colour blindness" },
+  { id: "sunset", label: "Sunset", hint: "Amber and rose" },
+  { id: "mint", label: "Mint", hint: "Green and pink" },
+  { id: "violet", label: "Violet", hint: "Lilac and pink" },
+  { id: "mono", label: "Mono", hint: "White and red" },
 ];
 export const FONTS: { id: FontFace; label: string }[] = [
   { id: "rounded", label: "Rounded" },
-  { id: "sans", label: "Grotesk" },
+  { id: "sans", label: "Sans" },
   { id: "serif", label: "Editorial" },
   { id: "mono", label: "Mono" },
 ];
@@ -63,7 +64,7 @@ export const useStore = create<State>()(
       selected: DEFAULT_LISTS[0].symbols[0],
       range: "1D",
       theme: initialTheme(),
-      tint: "none",
+      tint: "signal",
       font: "rounded",
       size: "md",
       setTheme: (theme) => set({ theme }),

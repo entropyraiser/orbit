@@ -26,14 +26,14 @@ export default function SearchPalette({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/55 px-3 pt-[10vh] backdrop-blur-md sm:px-4" onMouseDown={onClose}>
-      <div className="pop w-full max-w-xl overflow-hidden rounded-[28px] border border-line bg-panel shadow-2xl" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Search assets">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 pt-[10vh]" onMouseDown={onClose}>
+      <div className="pop w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-panel" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Search assets">
         <div className="flex items-center gap-3 border-b border-line px-4">
-          <span aria-hidden className="brand-grad grid h-8 w-8 shrink-0 place-items-center rounded-full"><Search size={14} /></span>
+          <Search size={16} strokeWidth={1.5} className="shrink-0 text-muted" aria-hidden />
           <input
             ref={ref} value={q} onChange={(e) => setQ(e.target.value)}
-            placeholder={`Search the planet… adds to “${listName}”`}
-            className="h-14 min-w-0 flex-1 bg-transparent text-[15px] font-medium outline-none placeholder:text-muted"
+            placeholder={`Search, adds to ${listName}`}
+            className="h-14 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
             onKeyDown={(e) => {
               if (e.key === "Escape") onClose();
               else if (e.key === "ArrowDown") { e.preventDefault(); setIdx((i) => Math.min(i + 1, results.length - 1)); }
@@ -41,49 +41,48 @@ export default function SearchPalette({ onClose }: { onClose: () => void }) {
               else if (e.key === "Enter") choose(idx);
             }}
           />
-          <kbd className="shrink-0 rounded-full border border-line bg-panel2 px-2 py-0.5 text-[10px] font-semibold text-muted">ESC</kbd>
+          <kbd className="shrink-0 rounded border border-line bg-panel2 px-1.5 font-mono text-[11px] text-faint">Esc</kbd>
         </div>
         <div className="max-h-[54vh] overflow-y-auto p-2">
           {!dq && (
             <div className="px-3 py-9 text-center">
-              <div aria-hidden className="text-4xl">🗺️</div>
-              <div className="mt-2 text-sm font-bold">Where to next?</div>
-              <div className="mt-1 text-xs leading-relaxed text-muted">Try “Toyota”, “Nifty”, “EURUSD”, “bitcoin”<br />or a ticker like “7203.T”.</div>
+              <div className="text-sm font-medium">Search any market</div>
+              <div className="mt-1 text-xs leading-relaxed text-muted">Try a name like Toyota or Nifty, a pair like EURUSD,<br />or a ticker like 7203.T.</div>
             </div>
           )}
           {dq && isFetching && !results.length && (
             <div className="space-y-1.5 p-1" aria-label="Searching">
-              {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton h-12 w-full !rounded-2xl" />)}
+              {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton h-12 w-full" />)}
             </div>
           )}
           {dq && !results.length && !isFetching && (
             <div className="px-3 py-9 text-center">
-              <span aria-hidden className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-downsoft text-down"><SearchX size={20} /></span>
-              <div className="mt-2 text-sm font-bold">{isError ? "Search took a wrong turn" : "Nothing on the map for that"}</div>
-              <div className="mt-1 text-xs text-muted">{isError ? "Check your connection and try again." : "Check the spelling, or try the exchange ticker (e.g. 7203.T)."}</div>
+              <SearchX size={20} strokeWidth={1.5} className="mx-auto text-muted" aria-hidden />
+              <div className="mt-2 text-sm font-medium">{isError ? "Search failed" : "No results"}</div>
+              <div className="mt-1 text-xs text-muted">{isError ? "Check your connection and try again." : "Check the spelling, or try the exchange ticker, for example 7203.T."}</div>
             </div>
           )}
           {results.map((r, i) => {
             const added = inList.includes(r.symbol);
             return (
               <button key={r.symbol} onMouseEnter={() => setIdx(i)} onClick={() => choose(i)}
-                className={`flex w-full items-center gap-3 rounded-3xl px-3 py-2.5 text-left transition ${i === idx ? "bg-accentsoft" : ""}`}>
-                <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-panel2 text-[16px]">{flagFor(r.symbol, { type: r.type, exchange: r.exchange })}</span>
+                className={`flex h-14 w-full items-center gap-3 rounded-xl px-3 text-left transition-colors ${i === idx ? "bg-panel2" : ""}`}>
+                <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-hover text-[16px]">{flagFor(r.symbol, { type: r.type, exchange: r.exchange })}</span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-bold">{r.name || r.symbol}</span>
-                  <span className="block truncate text-xs text-muted">{r.symbol}</span>
+                  <span className="block truncate text-sm font-medium">{r.name || r.symbol}</span>
+                  <span className="block truncate font-mono text-xs text-muted">{r.symbol}</span>
                 </span>
-                <span className="hidden shrink-0 rounded-full bg-panel2 px-2 py-0.5 text-[10px] font-semibold text-muted sm:block">{r.exchange}</span>
+                <span className="hidden shrink-0 font-mono text-xs text-faint sm:block">{r.exchange}</span>
                 {added
-                  ? <span className="flex shrink-0 items-center gap-1 rounded-full bg-upsoft px-2 py-0.5 text-[10px] font-bold text-up"><Check size={11} /> Watching</span>
-                  : i === idx && <span className="brand-grad shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold">Add ↵</span>}
+                  ? <span className="flex shrink-0 items-center gap-1 text-xs text-muted"><Check size={16} strokeWidth={1.5} /> Watching</span>
+                  : i === idx && <span className="shrink-0 text-xs text-muted">Add <kbd className="rounded border border-line bg-panel2 px-1.5 font-mono text-[11px] text-faint">↵</kbd></span>}
               </button>
             );
           })}
         </div>
-        <div className="flex items-center gap-4 border-t border-line px-4 py-2.5 text-[10px] font-medium text-muted">
-          <span><kbd className="rounded bg-panel2 px-1">↑↓</kbd> navigate</span>
-          <span><kbd className="rounded bg-panel2 px-1">↵</kbd> add / open</span>
+        <div className="flex items-center gap-4 border-t border-line px-4 py-2 text-xs text-muted">
+          <span><kbd className="rounded border border-line bg-panel2 px-1.5 font-mono text-[11px] text-faint">↑↓</kbd> navigate</span>
+          <span><kbd className="rounded border border-line bg-panel2 px-1.5 font-mono text-[11px] text-faint">↵</kbd> add / open</span>
           <span className="ml-auto hidden sm:block">Yahoo Finance · may be delayed</span>
         </div>
       </div>
